@@ -2,12 +2,21 @@ const { route } = require("../routes/users");
 const userModel = require("../models/users");
 
 // CREATE - POST
-const createUser = (req, res) => {
-    console.log(req.body);
-    res.json({
-        message: "Create new user",
-        data: req.body
-    })
+const createUser = async (req, res) => {
+    const {body} = req;
+    try{
+        await userModel.createNewUser(body)
+        res.json({
+            message: "Create new user",
+            data: body
+        })
+    }catch(error){
+        res.status(500).json({
+            message: "Server Error!!",
+            serverMessage: error, 
+        })
+    }
+
 }
 
 // READ - GET
