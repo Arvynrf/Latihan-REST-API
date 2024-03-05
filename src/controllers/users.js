@@ -1,4 +1,4 @@
-const { route } = require("../routes/users");
+const {route} = require("../routes/users");
 const userModel = require("../models/users");
 
 // CREATE - POST
@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
     try{
         await userModel.createNewUser(body)
         res.json({
-            message: "Create new user",
+            message: "Create new user succes",
             data: body
         })
     }catch(error){

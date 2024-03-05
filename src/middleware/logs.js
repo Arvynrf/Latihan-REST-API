@@ -1,6 +1,9 @@
 const logRequest = (req, res, next) => {
-    console.log("Terdapat request kedalam PATH:",req.path);
+    console.log(`Request PATH   : ${req.path}`);
+    console.log(`Request METHOD : ${req.method}`)
     next();
 }
 
 module.exports = logRequest;
+
+
