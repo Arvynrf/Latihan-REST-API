@@ -10,11 +10,26 @@ const getAllUser = () => {
 }
 
 const createNewUser = (body) => {
-    const query = `INSERT INTO users (name, email, address) VALUES ('${body.name}', '${body.email}', '${body.address}')`;
+    const query = `INSERT INTO users (name, email, address) VALUES 
+                   ('${body.name}', '${body.email}', '${body.address}')`;
+    return dbPool.execute(query);
+}
+
+const updateExUser = (body, idUser) => {
+    const query = `UPDATE users 
+                   SET name='${body.name}', email='${body.email}', address='${body.address}' 
+                   where id= ${idUser}`
+    return dbPool.execute(query);
+}
+
+const deleteExUser = (idUser) => {
+    const query = `DELETE FROM users where id= ${idUser}`
     return dbPool.execute(query);
 }
 
 module.exports = {
     getAllUser,
     createNewUser,
+    updateExUser,
+    deleteExUser,
 }

@@ -3,10 +3,19 @@ const userModel = require("../models/users");
 
 // CREATE - POST
 const createUser = async (req, res) => {
+
     const {body} = req;
+
+    if(!body.name||!body.email||!body.address){
+        return res.status(400).json({
+            message: "Failed,Wrong Input!!",
+            data: null,
+        })
+    }
+
     try{
         await userModel.createNewUser(body)
-        res.json({
+        res.status(201).json({
             message: "Create new user succes",
             data: body
         })
@@ -16,7 +25,6 @@ const createUser = async (req, res) => {
             serverMessage: error, 
         })
     }
-
 }
 
 // READ - GET
@@ -36,8 +44,6 @@ const getUser = async (req, res) => {
             serverMessage: error, 
         })
     }
-    
-    
     /* dummy data
     const data = {
         idUser: "1",
@@ -49,26 +55,42 @@ const getUser = async (req, res) => {
     */ 
 }
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
+
     const {idUser} = req.params;
-    console.log("idUser:", idUser);
-    res.json({
-        message: "Update user succes",
-        data: req.body
-    })
+    const {body} = req;
+    try {
+        await userModel.updateExUser(body, idUser)
+        res.json({
+            message: "Update User Succes!!",
+            data:{
+                id: idUser,
+                ...body
+            },
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error!!",
+            serverMessage: error, 
+        })
+    }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const {idUser} = req.params;
-    res.json ({
-        message: "Delete user succes",
-        /*dummy data
-         idUser: idUser,
-         name: "Budi",
-         age: 28,
-         address: "jln kokas"
-        */ 
-    })
+
+    try {
+        await userModel.deleteExUser(idUser)
+        res.json({
+            message: "Delete User Succes!!",
+            data: null
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error!!",
+            serverMessage: error, 
+        })
+    }
 }
 
 
